@@ -8,6 +8,7 @@ import ProductDetails from './Component/ProductDetails/ProductDetails';
 import Brands from './Component/Brands/Brands';
 import Wishlist from './Component/Wishlist/Wishlist';
 import Categories from './Component/Categories/Categories';
+import SpeCategories from './Component/SpeCategories/SpeCategories';
 import Navbar from './Component/Navbar/Navbar';
 import NotFound from './Component/NotFound/NotFound';
 import Register from './Component/Register/Register';
@@ -22,7 +23,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Profile from './Component/Profile/Profile';
 import CheckOut from './Component/CheckOut/CheckOut';
 import AllOrders from './Component/AllOrders/AllOrders';
-
+import SpeBrands from './Component/SpeBrands/SpeBrands';
 
 export default function App() {
   let QueryClients = new QueryClient()
@@ -37,8 +38,10 @@ export default function App() {
         { path:'products' , element: <GuardRouting><Products/></GuardRouting>},
         { path:'productdetails/:id' , element: <GuardRouting><ProductDetails/></GuardRouting>},
         { path:'brands' , element: <GuardRouting><Brands/></GuardRouting>},
+        { path:'spebrands/:id' , element: <GuardRouting><SpeBrands/></GuardRouting>},
         { path:'wishlist' , element: <GuardRouting><Wishlist/></GuardRouting>},
         { path:'categories' , element: <GuardRouting><Categories/></GuardRouting>},
+        { path:'specategories/:id' , element: <GuardRouting><SpeCategories/></GuardRouting>},
         { path:'allorders' , element: <GuardRouting><AllOrders/></GuardRouting>},
         { path:'navbar' , element: <Navbar/>},
         { path:"*" , element: <NotFound/>},

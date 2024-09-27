@@ -78,39 +78,41 @@ export default function Products() {
         <span className="loader"></span>
       </div> :
       <div className='container my-5'>
-        <div className='row'>
+        <div className='row g-4'>
           {data?.data.data.map( (element) => {
-            return <div key={element.id} className='col-md-3 product position-relative'>
-              <Link to={`/productdetails/${element.id}`}>
-                <img className='w-100' src={element.imageCover} alt="" />
-                <h6 className='text-main mt-2'>{element.category.name}</h6>
-                <h6>{element.title.split(' ').slice(0,2).join(' ')}</h6>
-                <div className='d-flex justify-content-between'>
-                  <span>{element.price}EGP</span>
-                  <span>{element.ratingsAverage}<i className='fa-solid fa-star rating-color'></i></span>
-                </div>
-              </Link>
-              <i onClick={()=> addProductToWish(element.id)}
-              className='fa-regular fa-heart fa-2x position-absolute text-danger top-0 end-0 m-2'></i>
-            <button onClick={()=> addProductToCart(element.id)} className='btn bg-main text-white w-100'>Add Product</button>
-          </div>
-          }
-        )}
-    </div>
-    <nav aria-label="Page navigation example">
-      <ul className="pagination justify-content-center my-5">
-        <li className="page-item">
-          <Link className="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></Link>
-        </li>
-        <li className="page-item cursor-pointer"><Link className="page-link" pagenum='1' onClick={getPageNumber} >1</Link></li>
-        <li className="page-item cursor-pointer"><Link className="page-link" pagenum='2' onClick={getPageNumber} >2</Link></li>
-        <li className="page-item">
-          <Link className="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></Link>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  }
+            return <div key={element.id} className='col-md-3'>
+              <div className="product position-relative p-2">
+                <Link to={`/productdetails/${element.id}`}>
+                  <img className='w-100' src={element.imageCover} alt="" />
+                  <h6 className='text-main mt-2'>{element.category.name}</h6>
+                  <h6>{element.title.split(' ').slice(0,2).join(' ')}</h6>
+                  <div className='d-flex justify-content-between'>
+                    <span>{element.price}EGP</span>
+                    <span>{element.ratingsAverage}<i className='fa-solid fa-star rating-color'></i></span>
+                  </div>
+                </Link>
+                <i onClick={()=> addProductToWish(element.id)}
+                  className='fa-regular fa-heart fa-2x position-absolute text-danger top-0 end-0 m-2'></i>
+                <button onClick={()=> addProductToCart(element.id)} className='btn bg-main text-white w-100'>Add Product</button>
+              </div>  
+            </div>
+            }
+          )}
+        </div>
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center my-5">
+            <li className="page-item">
+              <Link className="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></Link>
+            </li>
+            <li className="page-item cursor-pointer"><Link className="page-link" pagenum='1' onClick={getPageNumber} >1</Link></li>
+            <li className="page-item cursor-pointer"><Link className="page-link" pagenum='2' onClick={getPageNumber} >2</Link></li>
+            <li className="page-item">
+              <Link className="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      }
     </div>
   </HelmetProvider>
 </>

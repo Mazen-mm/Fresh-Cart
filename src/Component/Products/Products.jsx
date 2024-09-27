@@ -63,23 +63,28 @@ export default function Products() {
     // refetchInterval : 5000 ,
     // enabled : false 
   })
+  let [searchQuery, setSearchQuery] = useState('');
+  let SearchChange = (e) => { setSearchQuery(e.target.value.toLowerCase()) };
+  let filteredData = data?.data.data.filter((element) => element.title.toLowerCase().includes(searchQuery));
+
   return <>
   <HelmetProvider>
     <Helmet>
       <title>Fresh Cart Products</title>
     </Helmet>
     <div className="container">
-      <div className="my-5">
-        <nav className="navbar navbar-light bg-light w-75 mx-auto">
-          <input className="form-control me-2" type="search" placeholder="Search..." aria-label="Search"/>
-        </nav>
-      </div>
       {isLoading ? <div className='loading bg-white position-fixed d-flex align-items-center justify-content-center top-0 bottom-0 start-0 end-0'>
         <span className="loader"></span>
       </div> :
       <div className='container my-5'>
+        <div className="my-5">
+          <nav className="navbar navbar-light bg-light w-75 mx-auto">
+            <input value={searchQuery} onChange={SearchChange} id='searchInput' className="form-control me-2" 
+            type="search" placeholder="Search..." aria-label="Search"/>
+          </nav>
+        </div>
         <div className='row g-4'>
-          {data?.data.data.map( (element) => {
+          {filteredData?.map( (element) => {
             return <div key={element.id} className='col-md-3'>
               <div className="product position-relative p-2">
                 <Link to={`/productdetails/${element.id}`}>
@@ -115,5 +120,5 @@ export default function Products() {
       }
     </div>
   </HelmetProvider>
-</>
+  </>
 }

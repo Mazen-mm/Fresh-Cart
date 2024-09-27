@@ -69,7 +69,6 @@ export default function HomeProduct () {
     </div> :
     <div className='container my-5 m-auto'>
       <h2 className='text-center text-main'>All Products</h2>
-      <h4 className='text-center text-main px-5'><i className="fa-solid fa-ellipsis fa-2xl"></i></h4>
       <div className='row g-3 mt-4'>
         {data?.data.data.map( (element) => {
           return <div key={element.id} className='col-md-2 product position-relative'>

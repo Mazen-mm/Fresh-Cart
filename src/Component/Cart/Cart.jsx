@@ -35,9 +35,7 @@ export default function Cart() {
     <HelmetProvider>
       <Helmet>
         <title>Fresh Cart</title>
-      </Helmet>
-      <div className="text-center mt-5"><h1>Cart</h1></div>
-      
+      </Helmet>      
       {cartDetails? <div className="w-75 mx-auto my-3 p-3 bg-main-light">
         <h3 className='text-center'>Shop Cart :</h3>
         <h6 className='text-center text-main'>Cart Items : {cartDetails.numOfCartItems}</h6>

@@ -31,7 +31,7 @@ export default function Brands() {
         <div className='row g-4'>
           {data?.data.data.map( (element) => {
             return <div key={element._id} className='col-md-3'>
-              <Link to={`/specategories/${element._id}`}>
+              <Link to={`/spebrands/${element._id}`}>
                 <div className="product text-center">
                   <img className='w-100' src={element.image} alt="" />
                   <h4 className='text-main fw-bolder mt-2'>{element.name}</h4>

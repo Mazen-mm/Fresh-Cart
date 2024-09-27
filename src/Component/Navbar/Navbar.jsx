@@ -65,11 +65,11 @@ export default function Navbar() {
             </ul>  : ''}
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className='nav-item d-flex align-items-center'>
-                <i className='fa-brands fa-facebook mx-2'></i>
-                <i className='fa-brands fa-twitter mx-2'></i>
-                <i className='fa-brands fa-instagram mx-2'></i>
-                <i className='fa-brands fa-youtube mx-2'></i>
-                <i className='fa-brands fa-pinterest mx-2'></i>
+                <i style={{color:'#0000b3'}} className='fa-brands fa-facebook mx-2'></i>
+                <i style={{color:'#3399ff'}} className='fa-brands fa-twitter mx-2'></i>
+                <i style={{color:'#e87f29'}} class="fa-brands fa-instagram mx-2" ></i>
+                <i style={{color:'#FD1D1D'}} className='fa-brands fa-youtube mx-2'></i>
+                <i style={{color:'#c8232c'}} className='fa-brands fa-pinterest mx-2'></i>
               </li>
               {userToken != null ? <li className='nav-item d-flex justify-content-between'>
                 <div className='position-relative d-flex align-items-center'>

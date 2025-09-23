@@ -42,9 +42,9 @@ export default function ResetPass() {
       <form action="" onSubmit={form.handleSubmit}>
         {/* ////// enter email /////// */}
         <div className='my-2'>
-          <label htmlFor="email">Email : </label>
+          <label htmlFor="resetpass-email">Email : </label>
           <input onBlur={form.handleBlur} onChange={form.handleChange} className='form-control mb-3' type="email"
-          name='email' id='email'/>
+          name='email' id='resetpass-email' autoComplete="email"/>
           {(form.errors.email && form.touched.email) ? <div className='alert alert-danger'>{form.errors.email}</div> : '' }
         </div>
         {/* ////// enter New Password /////// */}

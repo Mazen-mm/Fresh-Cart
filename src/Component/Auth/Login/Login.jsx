@@ -1,66 +1,61 @@
-import { useFormik } from 'formik'
-import { useContext, useState } from 'react'
-import * as Yup from 'yup'
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../../Context/userContext';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { cartContext } from '../../../Context/cartContext';
+import { useDispatch } from 'react-redux';
+import { setUserToken, setUserData } from '../../../redux/userSlice';
+import { getLoggedUserCart } from '../../../redux/cartSlice';
 
 export default function Login () {
-let {setToken , setUserData} = useContext(UserContext);
-let {setNumOfCartItems , getLoggedUserCart} = useContext(cartContext);
-let navg = useNavigate()
-let navForget = useNavigate()
-let [errMsg,setErr] = useState('')
-let [loading,setLoading] = useState(true)
-////// ValidationSchema Yup to handle regEX ///////
-let validationSchema = Yup.object({
-  email: Yup.string().required('Email is Required').email('Enter Valid Email'),
-  password: Yup.string().required('Password is Required')
-  .matches(/^[a-zA-Z!@#$%^*_0-9]{6,16}$/,'Enter Valid Pasword'),
-})
-////// UseFormik to handle the form ///////
-  let formik = useFormik({
-    initialValues : {
-      email : '',
-      password : '',
+  const dispatch = useDispatch();
+  const navg = useNavigate();
+  const navForget = useNavigate();
+  const [errMsg, setErr] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  
+  // ValidationSchema Yup to handle regEX
+  const validationSchema = Yup.object({
+    email: Yup.string().required('Email is Required').email('Enter Valid Email'),
+    password: Yup.string().required('Password is Required')
+      .matches(/^[a-zA-Z!@#$%^*_0-9]{6,16}$/,'Enter Valid Pasword'),
+  });
+  // UseFormik to handle the form
+  const formik = useFormik({
+    initialValues: {
+      email: 'mazenmahmoud100200300@gmail.com',
+      password: 'Mazen123',
     },
-    onSubmit : loginUser,
-    validationSchema 
-  })
-///// Function to Login the User //////
-  async function loginUser (value){
-    setLoading(false)
-    let req = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin',value)
-    .catch( function (errorr){
-    setErr(errorr.response.data.message)
-    setLoading(true)
-  })
-///// if login process success ? open the Fresh Cart App and navigate to home component /////
-  if (req?.data?.message === 'success') {
-    setLoading(true)
-    localStorage.setItem('userToken' , req.data.token )
-    setToken(req?.data?.token);
-    setUserData(req?.data?.user);
-    getCartData();
-    navg('/')
+    onSubmit: loginUser,
+    validationSchema
+  });
+  // Function to Login the User
+  async function loginUser(value) {
+    setLoading(false);
+    let req = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', value)
+      .catch(function (errorr) {
+        setErr(errorr.response.data.message);
+        setLoading(true);
+      });
+    // if login process success ? open the Fresh Cart App and navigate to home component
+    if (req?.data?.message === 'success') {
+      setLoading(true);
+      localStorage.setItem('userToken', req.data.token);
+      dispatch(setUserToken(req?.data?.token));
+      dispatch(setUserData(req?.data?.user));
+      dispatch(getLoggedUserCart());
+      navg('/');
+    }
   }
-}
-///// Function to get User Cart Data //////
-async function getCartData () {
-  let req = await getLoggedUserCart().catch((err)=>{console.log(err)});
-  if(req?.data?.status === 'success'){
-    setNumOfCartItems(req.data.numOfCartItems);
-  }
-}
-///// Function to navigate to ForgetPass Component if user Forget his Password //////
-let handleForgetPassword = () => {
-  navForget('/forgetPass');
-};
+  // Function to navigate to ForgetPass Component if user Forget his Password
+  let handleForgetPassword = () => {
+    navForget('/forgetPass');
+  };
 
   return <>
-  <div className='my-5 w-50 m-auto'>
+  <div className='my-5 col-11 col-lg-8 col-md-9 m-auto'>
     <HelmetProvider>
     {/* /////// Helmet contains informations about Component /////// */}
     <Helmet>
@@ -73,22 +68,31 @@ let handleForgetPassword = () => {
     <form action="" onSubmit={formik.handleSubmit}>
       {/* ////// enter email /////// */}
       <div className='my-2'>
-        <label htmlFor="email">Email : </label>
-        <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control mb-3' type="email"
-        name='email' id='email'/>
-        {(formik.errors.email && formik.touched.email) ? <div className='alert alert-danger'>{formik.errors.email}</div> : '' }
+        <label htmlFor="login-email">Email :</label>
+        <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control' type="email"
+        name='email' id='login-email' autoComplete="email"/>
+        {(formik.errors.email && formik.touched.email) ? 
+          <div className='alert alert-danger'>{formik.errors.email}</div> : '' }
       </div>
       {/* ////// enter password /////// */}
       <div className='my-2'>
         <label htmlFor="password">Password : </label>
-        <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control mb-3' 
-        type="password" name='password'  id='password' />
-        {(formik.errors.password && formik.touched.password) ? <div className='alert alert-danger'>{formik.errors.password}</div> : '' }
+        <div className='input-group d-flex flex-nowrap align-items-center'>
+          <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control' 
+            type={showPassword ? "text" : "password"} name='password'  id='password' />
+          <button type='button' className="btn bg-dark-subtle cursor-pointer" onClick={() => setShowPassword(!showPassword)} >
+            {showPassword ? <i className="fa-regular fa-eye-slash"></i> : <i className="fa-regular fa-eye"></i> }
+          </button>
+        </div>
+        {(formik.errors.password && formik.touched.password) ? <div className='alert alert-danger'>
+          {formik.errors.password}</div> : '' }
       </div>
       {/* //// Loading until checks out the login process successfully /// */}
-      {loading ? <button disabled={!(formik.isValid && formik.dirty)} type='submit' 
-      onClick={formik.handleSubmit} className='btn bg-main text-white'>Login</button> : <button type='button' className='btn text-white bg-success'>
-      <i className='fa-solid fa-circle-notch fa-spin'></i></button>}
+      {loading ? <button disabled={!formik.isValid} type='submit'onClick={formik.handleSubmit} 
+        className='btn bg-main text-white'>Login</button> : 
+        <button type='button' className='btn text-white bg-success'>
+          <i className='fa-solid fa-circle-notch fa-spin'></i>
+        </button>}
       {/* ///// button to navigate to ForgetPass Component if user forget his pass ///// */}
       <button type='button' className='btn' onClick={handleForgetPassword}>Forget Password .... ?</button>
     </form>

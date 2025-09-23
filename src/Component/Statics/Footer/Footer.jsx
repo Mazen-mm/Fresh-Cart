@@ -24,41 +24,39 @@ export default function Footer() {
   return <>
   <HelmetProvider>
     <div className="mt-5 bg-main-light">
-      <div className="container pt-5 pb-3">
+      <div className="container py-5">
         {/* ///// First 2 sentence in footer ////// */}
         <h3>Get the FreshCart app</h3>
         <p>We will send you a link, open it on your phone to download the app</p>
         <div className="row pb-3 border-bottom">
           {/* ////// Email Input /////// */}
-          <div className="col-md-10">
+          <div className="col-8 col-md-9 col-lg-10">
             <input onBlur={formik.handleBlur} onChange={formik.handleChange} placeholder="Email..."
-              className='form-control mb-3' type="email" name='email' id='email'/>
+              className='form-control mb-3' type="email" name='email' id='footer-email' autoComplete="email"/>
           </div>
           {/* ////// Share App button /////// */}
-          <div className="col-md-2 p-0">
+          <div className="col-4 col-md-3 col-lg-2 p-0">
             <button disabled={!(formik.isValid && formik.dirty)} type='submit' 
-            onClick={formik.handleSubmit} className='btn bg-main text-white w-100'>Share App Link</button>
+            onClick={formik.handleSubmit} className='btn bg-main text-white'>Share App Link</button>
           </div>
         </div>
         {/* ////// Last Section in Footer /////// */}
-        <div className="row border-bottom pb-2 my-4 d-flex justify-content-between">
+        <div className="row border-bottom py-3 d-flex align-items-center">
         {/* /////// Payment Partners //////// */}
-          <div className="col-md-6">
-            <div className="row">
-              <div className="col-md-4"><h6>Payment Partners</h6></div>
-              <div className="col-md-2"><img className='w-100' src={amazonImg} alt="" /></div>
-              <div className="col-md-2"><img className='w-100' src={masterImg} alt="" /></div>
-              <div className="col-md-2"><img className='w-100' src={payPalImg} alt="" /></div>
+          <div className="col-12 col-lg-6">
+            <div className="row align-items-center">
+              <div className="col-5"><h6>Payment Partners</h6></div>
+              <div className="col-2 p-0"><img className='w-100' src={amazonImg} alt="" /></div>
+              <div className="col-2 p-0"><img className='w-100' src={masterImg} alt="" /></div>
+              <div className="col-2 p-0"><img className='w-100' src={payPalImg} alt="" /></div>
             </div>
           </div>
           {/* ////// Get Fresh Cart App /////// */}
-          <div className="col-md-6">
-            <div className="row p-0">
-              <div className="col-md-6 d-flex align-items-center pe-0">
-                <h6>Get deliveries with FreshCart</h6>
-              </div>
-              <div className="col-md-3 p-0"><img className='w-100' src={googlePlayImg} alt="" /></div>
-              <div className="col-md-3 mb-1"><img className='w-100' src={appStoreImg} alt="" /></div>
+          <div className="col-12 col-lg-6">
+            <div className="row align-items-center">
+              <div className="col-6"><h6>Get deliveries with FreshCart</h6></div>
+              <div className="col-3 p-0"><img className='w-100' src={googlePlayImg} alt="" /></div>
+              <div className="col-3 p-1"><img className='w-100' src={appStoreImg} alt="" /></div>
             </div>
           </div>
           {/* ////// Get Fresh Cart App /////// */}

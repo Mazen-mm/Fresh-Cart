@@ -16,8 +16,6 @@ import ForgetPass from './Component/Auth/ForgetPass/ForgetPass';
 import ResetPass from './Component/Auth/ResetPass/ResetPass';
 import Footer from './Component/Statics/Footer/Footer';
 import GuardRouting from './Component/Statics/GuardRouting/GuardRouting';
-import { UserContextProvider } from './Context/userContext';
-import { CartContextProvider } from './Context/cartContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Profile from './Component/Statics/Profile/Profile';
 import CheckOut from './Component/Orders/CheckOut/CheckOut';
@@ -56,12 +54,7 @@ export default function App() {
   ])
   return <>
     <QueryClientProvider client={QueryClients}>
-      {/* //// Cart context provider to share cart data on all component //// */}
-      <CartContextProvider>
-        <UserContextProvider>
-          <RouterProvider router={Routes}></RouterProvider>
-        </UserContextProvider>
-      </CartContextProvider>
+      <RouterProvider router={Routes}></RouterProvider>
     </QueryClientProvider>
   </>
 }

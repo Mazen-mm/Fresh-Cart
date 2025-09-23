@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+@font-face {
+  font-family: 'slick';
+  src: url('/fresh-cart/static/media/slick.295183786cd8a1389865.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

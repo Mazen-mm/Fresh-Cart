@@ -1,12 +1,13 @@
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import React, { useContext } from 'react'
-import { useParams } from 'react-router-dom'
-import { cartContext } from '../../../Context/cartContext';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { checkOutPayment } from '../../../redux/cartSlice';
 
 export default function CheckOut() {
-  let daata = useParams();
-  let {checkOutPayment} = useContext(cartContext);
+  const daata = useParams();
+  const dispatch = useDispatch();
 ////// ValidationSchema Yup to handle regEX ///////
   let validationSchema = Yup.object({
     details: Yup.string(),
@@ -24,10 +25,15 @@ export default function CheckOut() {
     validationSchema 
   })
 ///// Function to open payment link //////
-  async function Pay(val){
-    let req = await checkOutPayment(daata.id , val).catch( (err) => console.log(err) );
-    if(req?.data.status === 'success'){
-      window.open(req?.data.session.url , '_self')
+  async function Pay(val) {
+    try {
+      const resultAction = await dispatch(checkOutPayment({ cartId: daata.id, shippingAddress: val }));
+      const req = resultAction.payload;
+      if (req?.status === 'success') {
+        window.open(req.session.url, '_self');
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 

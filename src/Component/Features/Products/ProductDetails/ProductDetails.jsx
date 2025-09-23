@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom'
-import { useContext } from 'react';
-import { cartContext } from '../../../../Context/cartContext';
+import { useDispatch } from 'react-redux';
+import { addToCart, setNumOfCartItems } from '../../../../redux/cartSlice';
 import { Helmet , HelmetProvider } from 'react-helmet-async';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -10,25 +10,26 @@ import "slick-carousel/slick/slick-theme.css";
 import Swal from 'sweetalert2';
 
 export default function ProductDetails() {
-  let {addToCart , setNumOfCartItems} = useContext(cartContext);
-////// Function to add product to cart //////
-  async function addCart (id) {
-    let req = await addToCart(id).catch( (error) => {
+  const dispatch = useDispatch();
+  // Function to add product to cart
+  async function addCart(id) {
+    try {
+      const req = await dispatch(addToCart(id)).unwrap();
+      if (req.status === 'success') {
+        dispatch(setNumOfCartItems(req.numOfCartItems));
+        Swal.fire({
+          title: 'Good job!',
+          text: 'Product added successfully to your cart',
+          icon: 'success',
+        });
+      }
+    } catch (error) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-        footer: '<a href="#">Why do I have this issue?</a>'
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="#">Why do I have this issue?</a>',
       });
-    })
-////// Sweetalert library if product added to cart successfully ? set the number of cart items //////
-    if (req.data.status === 'success') {
-      Swal.fire({
-        title: "Good job!",
-        text: "Product added successfully to your cart",
-        icon: "success"
-      });
-      setNumOfCartItems(req.data.numOfCartItems)
     }
   }
 let params = useParams ();

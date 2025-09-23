@@ -35,22 +35,26 @@ let validationSchema2 = Yup.object({
   })
 ///// Function to send email forget pass //////
   async function ForgetPassApi (value){
-    let req = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords',value)
-    .catch( (errorr) => {
-    setErr(errorr.response.data.message)
-  })
-  if (req.data.statusMsg === 'success') {
-    setFormStatus(false)
+    try {
+      let req = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords', value);
+      if (req.data.statusMsg === 'success') {
+        setFormStatus(false);
+      }
+    } catch (errorr) {
+      const message = errorr.response?.data?.message || 'Something went wrong';
+      setErr(message);
+    }
   }
-}
 ///// Function to verify reset code //////
   async function verifyResetCode (value) {
-    let req = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode', value)
-    .catch(  (errorr) => {
-      setErr(errorr.response.data.message)
-    })
-    if(req.data.status === 'Success' ){
-      navReset('/resetPass')
+    try {
+      let req = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode', value);
+      if (req.data.status === 'Success') {
+        navReset('/resetPass');
+      }
+    } catch (errorr) {
+      const message = errorr.response?.data?.message || 'Something went wrong';
+      setErr(message);
     }
   }
 
@@ -68,9 +72,9 @@ let validationSchema2 = Yup.object({
     {formStatus ? <form onSubmit={formik.handleSubmit}>
       {/* ////// enter email /////// */}
       <div className='my-2'>
-        <label htmlFor="email">Enter Your Email</label>
-        <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control mb-3' type="email"
-        name='email' id='email'/>
+  <label htmlFor="forgetpass-email">Enter Your Email</label>
+  <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control mb-3' type="email"
+  name='email' id='forgetpass-email' autoComplete="email"/>
         <button type='submit' className='btn bg-main text-white'>Send</button>
       </div>
       {/* ////// enter email /////// */}

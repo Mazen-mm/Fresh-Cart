@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { HelmetProvider } from 'react-helmet-async'
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';

@@ -25,12 +25,20 @@ export default function Login () {
   // UseFormik to handle the form
   const formik = useFormik({
     initialValues: {
-      email: 'mazenmahmoud100200300@gmail.com',
-      password: 'Mazen123',
+      email: '',
+      password: '',
     },
     onSubmit: loginUser,
     validationSchema
   });
+
+  // Fill demo credentials handler
+  function fillDemoCredentials() {
+    formik.setValues({
+      email: 'mazenmahmoud100200300@gmail.com',
+      password: 'Mazen123',
+    });
+  }
   // Function to Login the User
   async function loginUser(value) {
     setLoading(false);
@@ -62,6 +70,14 @@ export default function Login () {
       <title>Fresh Cart Login</title>
     </Helmet>
     <h1 className='text-center'>Login Now ....</h1>
+    <div className="mb-3 bg-main-light border border-3 rounded-4 p-3" itemType='note'>
+      <p className="fw-bolder mb-1">Demo login:</p>
+      <p className="text-muted mb-1">Email: <b>mazenmahmoud100200300@gmail.com</b></p>
+      <p className="text-muted mb-2">Password: <b>Mazen123</b></p>
+      <button type="button" className="btn btn-primary" onClick={fillDemoCredentials}>
+        Fill Demo Credentials
+      </button>
+    </div>
     {/* ///// Display The error messages ///// */}
     {errMsg !== '' ? <div className='alert alert-danger'>{errMsg}</div> : ''}
     {/* ///// Formik to handle The Form ///// */}
@@ -70,7 +86,7 @@ export default function Login () {
       <div className='my-2'>
         <label htmlFor="login-email">Email :</label>
         <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control' type="email"
-        name='email' id='login-email' autoComplete="email"/>
+        name='email' id='login-email' autoComplete="email" value={formik.values.email}/>
         {(formik.errors.email && formik.touched.email) ? 
           <div className='alert alert-danger'>{formik.errors.email}</div> : '' }
       </div>
@@ -79,7 +95,7 @@ export default function Login () {
         <label htmlFor="password">Password : </label>
         <div className='input-group d-flex flex-nowrap align-items-center'>
           <input onBlur={formik.handleBlur} onChange={formik.handleChange} className='form-control' 
-            type={showPassword ? "text" : "password"} name='password'  id='password' />
+            type={showPassword ? "text" : "password"} name='password'  id='password' value={formik.values.password} />
           <button type='button' className="btn bg-dark-subtle cursor-pointer" onClick={() => setShowPassword(!showPassword)} >
             {showPassword ? <i className="fa-regular fa-eye-slash"></i> : <i className="fa-regular fa-eye"></i> }
           </button>
